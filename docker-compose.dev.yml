@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Neon Local proxy for development
+  neon-local:
+    image: neondatabase/neon_local:latest
+    container_name: acquisitions-neon-local
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env.development
+    networks:
+      - acquisitions-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -h localhost -p 5432 -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: acquisitions-app-dev
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - .env.development
+    volumes:
+      # Mount source code for development (hot reload)
+      - ./src:/app/src:ro
+      - ./logs:/app/logs
+    networks:
+      - acquisitions-network
+    depends_on:
+      neon-local:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'node -e "const http=require(\"http\");http.get(\"http://localhost:3000/health\",(r)=>{process.exit(r.statusCode===200?0:1)}).on(\"error\",()=>process.exit(1))"']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Optional: Drizzle Studio for database management
+  drizzle-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    container_name: acquisitions-drizzle-studio
+    ports:
+      - '4983:4983'
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@neon-local:5432/postgres
+    networks:
+      - acquisitions-network
+    depends_on:
+      neon-local:
+        condition: service_healthy
+    command: ['npm', 'run', 'db:studio']
+    profiles:
+      - studio
+
+networks:
+  acquisitions-network:
+    driver: bridge
+
+volumes:
+  neon-local-data:
