@@ -6,14 +6,16 @@ import { hashPassword } from '#services/auth.service.js';
 
 export const getAllUsers = async () => {
   try {
-    const allUsers = await db.select({
-      id: users.id,
-      email: users.email,
-      name: users.name,
-      role: users.role,
-      created_at: users.created_at,
-      updated_at: users.updated_at,
-    }).from(users);
+    const allUsers = await db
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        role: users.role,
+        created_at: users.created_at,
+        updated_at: users.updated_at,
+      })
+      .from(users);
 
     return allUsers;
   } catch (e) {
@@ -22,16 +24,18 @@ export const getAllUsers = async () => {
   }
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async id => {
   try {
-    const [user] = await db.select({
-      id: users.id,
-      email: users.email,
-      name: users.name,
-      role: users.role,
-      created_at: users.created_at,
-      updated_at: users.updated_at,
-    }).from(users)
+    const [user] = await db
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        role: users.role,
+        created_at: users.created_at,
+        updated_at: users.updated_at,
+      })
+      .from(users)
       .where(eq(users.id, id))
       .limit(1);
 
@@ -50,7 +54,7 @@ export const updateUser = async (id, updates) => {
   try {
     // First check if user exists
     await getUserById(id);
-        
+
     // Hash password if it's being updated
     if (updates.password) {
       updates.password = await hashPassword(updates.password);
@@ -59,7 +63,7 @@ export const updateUser = async (id, updates) => {
     // Add updated_at timestamp
     const updateData = {
       ...updates,
-      updated_at: new Date()
+      updated_at: new Date(),
     };
 
     const [updatedUser] = await db
@@ -83,13 +87,13 @@ export const updateUser = async (id, updates) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async id => {
   try {
     // First check if user exists
     await getUserById(id);
-        
+
     await db.delete(users).where(eq(users.id, id));
-        
+
     logger.info(`User ${id} deleted successfully`);
     return { id, message: 'User deleted successfully' };
   } catch (e) {

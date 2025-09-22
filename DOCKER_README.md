@@ -104,6 +104,7 @@ npm run docker:dev
 ```
 
 This will:
+
 - Start Neon Local proxy on port 5432
 - Create an ephemeral database branch
 - Start the application on port 3000
@@ -182,12 +183,14 @@ docker service scale acquisitions-app-prod=3
 ### 4. Health Checks
 
 The production setup includes health checks:
+
 - Application: `http://localhost:3000/health`
 - Docker health check runs every 30 seconds
 
 ## Available Scripts
 
 ### Development Scripts
+
 ```bash
 npm run docker:dev              # Start development environment
 npm run docker:dev:down         # Stop development environment
@@ -196,6 +199,7 @@ npm run docker:dev:studio       # Start Drizzle Studio
 ```
 
 ### Production Scripts
+
 ```bash
 npm run docker:prod             # Start production environment
 npm run docker:prod:down        # Stop production environment
@@ -203,6 +207,7 @@ npm run docker:prod:logs        # View production logs
 ```
 
 ### Utility Scripts
+
 ```bash
 npm run docker:build            # Build Docker image only
 npm run docker:clean            # Clean up Docker resources
@@ -213,6 +218,7 @@ npm run docker:clean            # Clean up Docker resources
 ### Common Issues
 
 #### 1. Neon Local Connection Issues
+
 ```bash
 # Check if Neon Local is running
 docker-compose -f docker-compose.dev.yml ps
@@ -225,6 +231,7 @@ docker-compose -f docker-compose.dev.yml exec neon-local env | grep NEON
 ```
 
 #### 2. Application Won't Start
+
 ```bash
 # Check application logs
 docker-compose -f docker-compose.dev.yml logs app
@@ -234,6 +241,7 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:migrate
 ```
 
 #### 3. Port Conflicts
+
 ```bash
 # Check what's using port 3000
 lsof -i :3000
@@ -243,6 +251,7 @@ lsof -i :3000
 ```
 
 #### 4. Permission Issues
+
 ```bash
 # Fix log directory permissions
 sudo chown -R $USER:$USER ./logs
@@ -254,6 +263,7 @@ sudo docker-compose -f docker-compose.dev.yml up
 ### Database Issues
 
 #### Reset Development Database
+
 ```bash
 # Stop services
 npm run docker:dev:down
@@ -266,6 +276,7 @@ npm run docker:dev
 ```
 
 #### Migration Issues
+
 ```bash
 # Generate new migration
 docker-compose -f docker-compose.dev.yml exec app npm run db:generate
@@ -280,6 +291,7 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 ## Architecture
 
 ### Development Architecture
+
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   Developer     │    │   Docker Host    │    │   Neon Cloud    │
@@ -302,6 +314,7 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 ```
 
 ### Production Architecture
+
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │     Client      │    │   Docker Host    │    │   Neon Cloud    │
@@ -320,24 +333,26 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 
 ### Key Differences
 
-| Aspect | Development | Production |
-|--------|-------------|------------|
-| Database | Neon Local + Ephemeral Branch | Neon Cloud Direct |
-| Port Exposure | 3000, 5432, 4983 | 3000 only |
-| Hot Reload | Yes (volume mounted) | No |
-| Resource Limits | None | CPU/Memory limits |
-| Health Checks | Basic | Comprehensive |
-| Logging | Debug level | Info level |
-| Security | Development keys | Production secrets |
+| Aspect          | Development                   | Production         |
+| --------------- | ----------------------------- | ------------------ |
+| Database        | Neon Local + Ephemeral Branch | Neon Cloud Direct  |
+| Port Exposure   | 3000, 5432, 4983              | 3000 only          |
+| Hot Reload      | Yes (volume mounted)          | No                 |
+| Resource Limits | None                          | CPU/Memory limits  |
+| Health Checks   | Basic                         | Comprehensive      |
+| Logging         | Debug level                   | Info level         |
+| Security        | Development keys              | Production secrets |
 
 ## Security Considerations
 
 ### Development
+
 - Uses development JWT secrets (not secure)
 - Database credentials are in Docker Compose
 - All ports exposed for debugging
 
 ### Production
+
 - Environment variables for all secrets
 - No hardcoded credentials
 - Minimal port exposure
@@ -357,6 +372,7 @@ docker-compose -f docker-compose.dev.yml exec app npm run db:studio
 ## Support
 
 For issues related to:
+
 - **Neon Database**: [Neon Documentation](https://neon.com/docs)
 - **Docker**: [Docker Documentation](https://docs.docker.com)
 - **Application**: Check the main README.md or create an issue in the repository

@@ -7,6 +7,7 @@ Successfully implemented a comprehensive CI/CD pipeline for the Acquisitions API
 ## 📁 Files Created
 
 ### GitHub Actions Workflows
+
 ```
 .github/workflows/
 ├── lint-and-format.yml      # Code quality and formatting checks
@@ -16,6 +17,7 @@ Successfully implemented a comprehensive CI/CD pipeline for the Acquisitions API
 ```
 
 ### Support Scripts
+
 ```
 scripts/
 └── validate-workflows.sh    # Workflow validation script
@@ -26,6 +28,7 @@ scripts/
 ### 1. **lint-and-format.yml** - Code Quality Pipeline
 
 **✅ Key Features:**
+
 - Triggers on push/PR to `main` and `staging` branches
 - Node.js 20.x with npm caching for speed
 - ESLint analysis with clear failure annotations
@@ -33,16 +36,19 @@ scripts/
 - Automatic failure with helpful fix suggestions
 
 **🎯 Success Criteria:**
+
 - All ESLint rules pass (`npm run lint`)
 - Code is properly formatted (`npm run format:check`)
 
 **🛠️ Fix Commands Provided:**
+
 - `npm run lint:fix` - Auto-fix ESLint issues
 - `npm run format` - Auto-format code with Prettier
 
 ### 2. **tests.yml** - Testing Pipeline
 
 **✅ Key Features:**
+
 - Triggers on push/PR to `main` and `staging` branches
 - PostgreSQL 15 test database service
 - Jest test runner with ES modules support
@@ -51,10 +57,12 @@ scripts/
 - Comprehensive environment variable setup
 
 **🎯 Success Criteria:**
+
 - All tests pass (`npm test`)
 - Coverage reports generated successfully
 
 **🔧 Environment Configuration:**
+
 ```bash
 NODE_ENV=test
 NODE_OPTIONS=--experimental-vm-modules
@@ -66,6 +74,7 @@ ARCJET_KEY=test_arcjet_key
 ### 3. **docker-build-and-push.yml** - Deployment Pipeline
 
 **✅ Key Features:**
+
 - Triggers on push to `main` branch + manual dispatch
 - Multi-platform builds (linux/amd64, linux/arm64)
 - Docker Hub integration with authentication
@@ -74,11 +83,13 @@ ARCJET_KEY=test_arcjet_key
 - Detailed build summary in GitHub
 
 **🏷️ Tagging Strategy:**
+
 - `latest` - Latest main branch build
 - `prod-YYYYMMDD-HHmmss` - Production timestamped releases
 - `main-<sha>` - Commit-specific builds
 
 **📦 Docker Configuration:**
+
 - Registry: Docker Hub
 - Platforms: linux/amd64, linux/arm64
 - Target: `runtime` (from Dockerfile)
@@ -109,6 +120,7 @@ Set up branch protection rules for `main` and `staging`:
 ## 🔄 Workflow Execution Flow
 
 ### Pull Request Flow:
+
 ```mermaid
 graph LR
     A[PR Created] --> B[Lint & Format]
@@ -118,6 +130,7 @@ graph LR
 ```
 
 ### Main Branch Flow:
+
 ```mermaid
 graph LR
     A[Push to Main] --> B[Lint & Format]
@@ -129,11 +142,13 @@ graph LR
 ## 📊 Monitoring & Artifacts
 
 ### Generated Artifacts:
+
 - **Coverage Reports** (30-day retention)
 - **Test Results Summary** (GitHub step summary)
 - **Docker Build Information** (GitHub step summary)
 
 ### Monitoring Points:
+
 - Workflow status in GitHub Actions tab
 - Coverage trends via artifacts
 - Docker image tags in Docker Hub
@@ -142,6 +157,7 @@ graph LR
 ## 🚀 Getting Started
 
 1. **Validate Workflows:**
+
    ```bash
    ./scripts/validate-workflows.sh
    ```
@@ -160,21 +176,25 @@ graph LR
 ## 🎯 Benefits Achieved
 
 ### ✅ **Automated Quality Assurance**
+
 - No code reaches main without passing quality checks
 - Consistent formatting and linting standards
 - Automated test execution with coverage tracking
 
 ### ✅ **Streamlined Deployment**
+
 - Automatic Docker image builds for main branch
 - Multi-platform support for broad compatibility
 - Intelligent caching for faster builds
 
 ### ✅ **Developer Experience**
+
 - Clear error messages with fix suggestions
 - Comprehensive documentation
 - Easy local validation tools
 
 ### ✅ **Production Readiness**
+
 - Timestamped production releases
 - Proper semantic versioning
 - Rollback capability via tagged images
@@ -182,12 +202,14 @@ graph LR
 ## 🔧 Maintenance Notes
 
 ### Regular Tasks:
+
 - [ ] Update GitHub Actions versions quarterly
 - [ ] Review and rotate Docker Hub credentials annually
 - [ ] Monitor dependency updates via dependabot
 - [ ] Review coverage reports for quality trends
 
 ### Troubleshooting:
+
 - Use the validation script before committing workflow changes
 - Check GitHub Actions logs for detailed error information
 - Verify all required secrets are configured correctly
@@ -196,6 +218,7 @@ graph LR
 ## 📈 Next Steps
 
 Consider implementing:
+
 - [ ] **Staging deployment** workflow for pre-production testing
 - [ ] **Security scanning** with tools like Snyk or CodeQL
 - [ ] **Performance testing** integration
@@ -205,5 +228,5 @@ Consider implementing:
 
 ---
 
-✅ **CI/CD Implementation Complete!** 
+✅ **CI/CD Implementation Complete!**
 Your Acquisitions API now has a robust, automated pipeline for quality assurance and deployment.

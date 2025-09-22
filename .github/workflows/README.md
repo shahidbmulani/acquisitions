@@ -7,10 +7,12 @@ This directory contains GitHub Actions workflows for automated testing, linting,
 ### 1. `lint-and-format.yml` - Code Quality Checks
 
 **Triggers:**
+
 - Push to `main` or `staging` branches
 - Pull requests to `main` or `staging` branches
 
 **Features:**
+
 - ✅ ESLint code analysis
 - ✅ Prettier formatting checks
 - ✅ Node.js 20.x with npm caching
@@ -18,16 +20,19 @@ This directory contains GitHub Actions workflows for automated testing, linting,
 - ✅ Automated failure on code quality issues
 
 **Actions on Failure:**
+
 - Provides specific commands to fix issues: `npm run lint:fix` and `npm run format`
 - Annotates the workflow with helpful error messages
 
 ### 2. `tests.yml` - Test Suite Execution
 
 **Triggers:**
+
 - Push to `main` or `staging` branches
 - Pull requests to `main` or `staging` branches
 
 **Features:**
+
 - 🧪 Jest test runner with ES modules support
 - 📊 Coverage report generation
 - 🗄️ PostgreSQL 15 test database
@@ -36,6 +41,7 @@ This directory contains GitHub Actions workflows for automated testing, linting,
 - ⚠️ Test failure annotations
 
 **Environment Variables:**
+
 - `NODE_ENV=test`
 - `NODE_OPTIONS=--experimental-vm-modules`
 - `DATABASE_URL` (PostgreSQL test database)
@@ -45,10 +51,12 @@ This directory contains GitHub Actions workflows for automated testing, linting,
 ### 3. `docker-build-and-push.yml` - Container Deployment
 
 **Triggers:**
+
 - Push to `main` branch
 - Manual trigger via `workflow_dispatch`
 
 **Features:**
+
 - 🐳 Multi-platform builds (linux/amd64, linux/arm64)
 - 🏷️ Intelligent tagging strategy
 - 📦 Docker Hub registry
@@ -56,6 +64,7 @@ This directory contains GitHub Actions workflows for automated testing, linting,
 - 📊 Comprehensive build summary
 
 **Tags Generated:**
+
 - `latest` (for main branch)
 - `prod-YYYYMMDD-HHmmss` (timestamped production tags)
 - `main-<sha>` (commit-specific tags)
@@ -116,11 +125,13 @@ npm test
 ## Workflow Behavior
 
 ### Pull Request Workflow
+
 1. **Lint and Format** - Checks code quality
 2. **Tests** - Runs test suite with coverage
 3. Both must pass before merge is allowed
 
 ### Main Branch Workflow
+
 1. **Lint and Format** - Ensures code quality
 2. **Tests** - Validates functionality
 3. **Docker Build and Push** - Creates and publishes container image
@@ -130,11 +141,13 @@ npm test
 ### Common Issues
 
 1. **ESLint Failures:**
+
    ```bash
    npm run lint:fix
    ```
 
 2. **Formatting Issues:**
+
    ```bash
    npm run format
    ```
@@ -170,6 +183,7 @@ npm test
 ### Updating Workflows
 
 When updating workflows:
+
 1. Test changes in a feature branch first
 2. Consider backward compatibility
 3. Update this README if behavior changes
