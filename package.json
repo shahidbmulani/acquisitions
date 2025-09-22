@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "imports": {
+    "#src/*": "./src/*",
     "#config/*": "./src/config/*",
     "#controllers/*": "./src/controllers/*",
     "#middleware/*": "./src/middleware/*",
@@ -32,8 +33,9 @@
     "docker:prod:logs": "docker-compose -f docker-compose.prod.yml logs -f",
     "docker:build": "docker build -t acquisitions-app .",
     "docker:clean": "docker system prune -f && docker volume prune -f",
-    "dev:docker" : "sh ./scripts/dev.sh",
-    "prod:docker": "sh ./scripts/prod.sh"
+    "dev:docker": "sh ./scripts/dev.sh",
+    "prod:docker": "sh ./scripts/prod.sh",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "repository": {
     "type": "git",
@@ -69,6 +71,8 @@
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "prettier": "^3.6.2"
+    "jest": "^30.1.3",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.4"
   }
 }
